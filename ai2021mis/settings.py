@@ -132,7 +132,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
 RECIPIENT_ADDRESS = 'wiratamawidarto@gmail.com'
 
-WEB_HOST = 'https:'
+
+WEB_HOST = 'https://christopher0908.pythonanywhere.com/'
 LINE_CHANNEL_ACCESS_TOKEN = 'sRRx49jYLQL+JbvGmq9s8CkvelMEJMexixUGnUJD77Nje9aW6Nf3jf4jGQ7zNrTM1tk0UBVsPc5Ezm4zrU7q8ZHoRI6kHkcxu4dADMmLjKcmQETiUVe1ov0G44yMTbzwVwrKd8JjI8lJjRJ4R5H2LgdB04t89/1O/w1cDnyilFU='
 LINE_CHANNEL_SECRET = 'dc642785c53e406cdcc72ec324aa6ca8'
 
