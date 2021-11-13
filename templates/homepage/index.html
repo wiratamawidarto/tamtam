@@ -1,0 +1,375 @@
+{% extends 'website_base/base.html' %}
+{% block title %} 主頁|控制台 {% endblock %}
+
+{% block content %}
+
+<!-- PAGE CONTENT-->
+<div class="page-content--bgf7">
+    <!-- BREADCRUMB-->
+    <section class="au-breadcrumb2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="au-breadcrumb-content">
+                        <div class="au-breadcrumb-left">
+                <!--        <span class="au-breadcrumb-span">You are here:</span>  -->
+                            <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                <li class="list-inline-item active">
+                                    <a href={% url 'homepage' %}><h3>主頁</h3></a>
+                                </li>
+                                <!--<li class="list-inline-item seprate">-->
+                                <!--    <span>/</span>-->
+                                <!--</li>-->
+                                <!--<li class="list-inline-item">Dashboard</li>-->
+                            </ul>
+                        </div>
+
+                        <form class="au-form-icon--sm" action="" method="post">
+                            <input class="au-input--w300 au-input--style2" type="text" placeholder="搜尋">
+                            <button class="au-btn--submit2" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END BREADCRUMB-->
+
+    <!-- WELCOME-->
+    <section class="welcome p-t-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="title-4">歡迎 {{username}}
+
+                        <span></span>
+
+                    </h1>
+                    <hr class="line-seprate">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END WELCOME-->
+
+
+
+
+    <!-- STATISTIC-->
+    <section class="statistic statistic2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--red">
+                        <h2 class="number">{{todays_alert}}</h2>
+                        <span class="desc">今天警報</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-account-o"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--orange">
+                        <h2 class="number">{{this_week_alert}}</h2>
+                        <span class="desc">本週警報</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--blue">
+                        <h2 id = "dangerID" class="number" >{{total_dangerous}}</h2>
+                        <span class="desc">危險警報</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-calendar-note"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--green">
+                        <h2 class="number">{{total_alert}}</h2>
+                        <span class="desc">總警報</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-money"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END STATISTIC-->
+
+
+
+
+    <!-- STATISTIC CHART-->
+    <section class="statistic-chart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-5 m-b-35">statistics</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <!-- CHART-->
+                    <div class="statistic-chart-1">
+                        <h3 class="title-3 m-b-30">圖表</h3>
+                        <div class="chart-wrap">
+                            <canvas id="widgetChart5"></canvas>
+                        </div>
+                        <div class="statistic-chart-1-note">
+                            <span class="big">10,368</span>
+                            <span>/ 16220 statistical data</span>
+                        </div>
+                    </div>
+                    <!-- END CHART-->
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <!-- TOP CAMPAIGN-->
+                    <div class="top-campaign">
+                        <h3 class="title-3 m-b-30">警報類型</h3>
+                        <div class="table-responsive">
+                            <table class="table table-top-campaign">
+                                <tbody>
+                                    <tr>
+                                        <td>存在危險行為</td>
+                                        <td>{{ total_danagerous_without_unknown }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>無危險行為</td>
+                                        <td>{{ no_danger }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>未知</td>
+                                        <td>{{ unknown }}</td>
+                                    </tr>
+
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END TOP CAMPAIGN-->
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <!-- CHART PERCENT-->
+                    <div class="chart-percent-2">
+                        <h3 class="title-3 m-b-30">圖表 %</h3>
+                        <div class="chart-wrap" >
+                            <canvas id="percent-chart2"></canvas>
+                            <div id="chartjs-tooltip">
+                                <table></table>
+                            </div>
+                        </div>
+
+                        <div class="chart-info">
+                            <div class="chart-note">
+                                <span class="dot dot--blue"></span>
+                                <span>不危險</span>
+                            </div>
+                            <div class="chart-note">
+                                <span class="dot dot--red"></span>
+                                <span>危險</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- END CHART PERCENT-->
+<!--
+<div class="container">
+    <div class="row my-3">
+        <div class="col">
+            <h4>Bootstrap 4 Chart.js</h4>
+        </div>
+    </div>
+    <div class="row py-2">
+        <div class="col-md-4 py-1">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chDonut1"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 py-1">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chDonut2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 py-1">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chDonut3"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+-->
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END STATISTIC CHART-->
+
+    <!-- DATA TABLE-->
+    <section class="p-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-5 m-b-35"></h3>
+                    <div class="table-data__tool">
+                        <div class="table-data__tool-left">
+                            <div class="rs-select2--light rs-select2--md">
+
+
+
+                                <select id="id_one" class="js-select2" name="myoptions" onchange = 'func1()'>
+                                    <option selected="selected">All Properties</option>
+                                    <option value="dangerous behaviourr"> dagerous behaviour</option>
+                                    <option value="">no helmet</option>
+                                </select>
+
+
+
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                            <div class="rs-select2--light rs-select2--sm">
+                                <select class="js-select2" name="time">
+                                    <option selected="selected">Today</option>
+                                    <option value="">3 Days</option>
+                                    <option value="">1 Week</option>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                            <!--
+                            <button class="au-btn-filter">
+                                <i class="zmdi zmdi-filter-list"></i>filters</button>
+                            -->
+
+                        </div>
+                        <!--
+                        <div class="table-data__tool-right">
+                            <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>add item</button>
+                            <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                                <select class="js-select2" name="type">
+                                    <option selected="selected">Export</option>
+                                    <option value="">Option 1</option>
+                                    <option value="">Option 2</option>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="au-checkbox">
+                                            <input type="checkbox">
+                                            <span class="au-checkmark"></span>
+                                        </label>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Alert</th>
+                                    <th>Date/Time</th>
+                                    <th>status</th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <label id = "demo"></label>
+
+
+
+            {% for a in data %}
+<!--
+            {% if a.2 == 'Dangerous behavior exists'%}
+                {{a.1}}
+            {%endif%}
+-->
+                    {% if a.2 == '無危險行為'%}
+                                <tr class="tr-shadow">
+                    {%else%}
+                                <tr class="tr-shadow" style="background-color:#faf0e6;">
+                    {%endif%}
+                                    <td style="color:red;">
+                                        <label class="au-checkbox"  >
+                                            <input type="checkbox">
+                                            <span class="au-checkmark"></span>
+                                        </label>
+                                    </td>
+                                    <td><a href='/website/detail/{{a.0}}'>{{a.0}}</a></td>
+
+                                    <td>
+
+                                        <span>{{a.1}}</span>
+                                    </td>
+                                    <td class="desc">{{a.2}}</td>
+                                    <td><span class="block-email">{{a.3}} </span></td>
+
+                                {% if a.2 == '無危險行為'%}
+                                    <td>
+                                        <span class="status--process">安全</span>
+
+                                    </td>
+                                {% else %}
+                                     <td>
+                                        <span class="status--denied">危險</span>
+                                    </td>
+                                {%endif%}
+                                   <!-- <td>$1199.00</td> -->
+                                    <td>
+
+                                        <div class="table-data-feature">
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+            {%endfor%}
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END DATA TABLE-->
+</div>
+
+{% endblock %}

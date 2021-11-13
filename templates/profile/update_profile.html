@@ -1,0 +1,45 @@
+{% extends 'profile/profile_base.html' %}
+{% block title %} 負責人資料|Modify {% endblock %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2 mr-auto ml-auto">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title mb-3"><a href={% url 'my_profile'%}>負責人資料 </a> >>  負責人資料 | 更改</strong>
+        </div>
+        <div class="card-body">
+            <div class="mx-auto d-block">
+                <div class="">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="col m12">
+                                <h3>{{ message }}</h3>
+                                <br>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group">
+                        <form action="{% url 'my_profile_update' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ profile_form.as_p}}
+                            <button class="btn btn-primary" type="submit" name="action">更新</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        <div class="content">
+            <div class="container">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

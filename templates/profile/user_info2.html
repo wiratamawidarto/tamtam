@@ -1,0 +1,105 @@
+{% load static %}
+<!-- Start Container-->
+        <div class="container">
+            <!-- row -->
+            <div class="card-panel">
+                <div class="row">
+            <!-- =========================================
+                           SIDEBAR
+            ==========================================-->
+                <!-- Start Sidebar -->
+                <aside class="col l4 m12 s12 sidebar z-depth-1" id="sidebar">
+                    <!--  Sidebar row -->
+                    <div class="row">
+                        <!--  top section   -->
+                        <div class="heading">
+                            <!-- ====================
+                                      IMAGE
+                            ==========================-->
+                            <div class="feature-img">
+                                
+                            </div>
+                            <!-- =========================================
+                                       NAVIGATION
+                            ==========================================-->
+                            <!-- ========================================
+                                       NAME AND TAGLINE
+                            ==========================================-->
+                            <div class="title col s12 m12 l9 right  wow fadeIn animated" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                                <h3>{{ user_profile.name }}</h3> <!-- title name -->
+                                <span>工號: {{ user_profile.gongHao }}</span>
+                                <p>公司: {{ user_profile.company }}</p> <!-- tagline -->
+                            </div>
+                        </div>
+                         <!-- sidebar info -->
+                        <div class="col l12 m12 s12 sort-info sidebar-item">
+                            <div class="row">
+                                <div class="col m12 s12 l3 icon center-align"> <!-- icon -->
+                                    <br>
+                                   <i class="small material-icons">perm_identity</i>
+                                </div>
+                                <div class="col m12 s12 l9 info wow fadeIn a1 animated"> <!-- text -->
+                                    <div class="section-item-details">
+                                        <h5>(No Infomation)</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MOBILE NUMBER -->
+                        <div class="col l12 m12 s12  mobile sidebar-item">
+                            <div class="row">
+                                <div class="col m12 s12 l3 icon center-align">
+                                    <br>
+                                    <i class="small material-icons">phone</i> <!-- icon -->
+                                </div>
+                                <div class="col m12 s12 l9">
+                                    <div class="section-item-details">
+                                        <h5><a href="tel:{{ user_profile.contact_num }}">{{ user_profile.contact_num }}</a></h5> <!-- Number -->
+                                        <span>Mobile</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  EMAIL -->
+                        <div class="col l12 m12 s12  email sidebar-item ">
+                            <div class="row">
+                                <div class="col m12 s12 l3 icon center-align">
+                                    <br>
+                                    <i class="small material-icons">email</i> <!-- icon -->
+                                </div>
+                                <div class="col m12 s12 l9 info wow fadeIn a3">
+                                    <div class="section-item-details">
+                                        <div class="personal">
+                                            <h5><a href="mailto:{{ user_profile.email }}">{{ user_profile.email }}</a></h5> <!-- Email -->
+                                            <span>My Email</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Email  -->
+                        <div class="col l12 m12 s12  address sidebar-item ">
+                            <div class="row">
+                                <div class="col m12 s12 l3 icon center-align">
+                                    <br>
+                                    <i class="small material-icons">Line ID</i> <!-- icon -->
+                                </div>
+                                <div class="col m12 s12 l9 info" >
+                                    <div class="section-item-details">
+                                        <div class="">
+                                            <h5>{{ user_profile.lineid }}</h5>
+                                            <span>Website</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>S
+
+                    </div>   <!-- end row -->
+                </aside><!-- end sidebar -->
+
+                <!-- =========================================
+                   Work experiences
+                ==========================================-->
+            </div>
+        </div>  <!-- end container -->

@@ -1,0 +1,26 @@
+{% extends 'profile/profile_base.html' %}
+{% block title %} Profile {% endblock %}
+{% load static %}
+{% block Top_background %}{% static 'images/main_picture.jpg' %}{% endblock %}
+{% block color1 %} deep-orange{% endblock %}
+{% block color2 %} deep-orange{% endblock %}
+{% block Top_href %}
+{% endblock %}
+
+{% block Top_href_drop %}
+{% endblock %}
+
+{% block header_title %}
+    <h1>My Profile</h1>
+{% endblock %}
+
+
+{% block categories %}
+{% endblock %}
+
+{% block drop_menu %}
+{% endblock %}
+
+{% block content %}
+    {% include 'profile/user_info.html' %}
+{% endblock %}

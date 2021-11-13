@@ -1,0 +1,38 @@
+{% extends 'website_base/base.html' %}
+{% block title %} 主頁|控制台 {% endblock %}
+
+{% block content %}
+
+
+
+        <div class="container">
+                <div class = "row">
+                    <div class ="col-sm-12 col-md-8 ">
+                        {% if obj_yolofiles.image %}
+                            <img src=" {{ obj_yolofiles.image.url }}" width="100%"><br>
+                        {% endif %}
+                    </div>
+                    <div class ="col-sm-12 col-md-4 ">
+                        {% if obj_yolo %}
+                            <h2 style="padding:30px; font-size:40px">
+                                ID: {{ obj_yolo.id }}
+                            </h2>
+                            <p style="font-size:20px">
+                            標題: {{ obj_yolo.title }}<br>
+                            警報: {{ obj_yolo.get_alert_display }}<br>
+                            描述: {{ obj_yolo.description }}<br>
+                            日期: {{ obj_yolo.timestamp }}<br>
+                            </p>
+
+                        {% endif %}
+                    </div>
+
+                </div>
+
+        </div>
+
+      <!--JavaScript at end of body for optimized loading-->
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+
+
+{% endblock %}

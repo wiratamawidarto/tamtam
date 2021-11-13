@@ -1,0 +1,36 @@
+
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title> website </title>
+</head>
+
+<body>
+
+
+
+{% for a in data %}
+
+    {% for x in a %}
+        {{x}}<br>
+
+
+
+        {% for i in database_image %}
+            {% if i.id == x and i.image %}
+
+                <img src=" {{i.image.url}}" width="400" height="400"><br>
+
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+
+    <br>
+    <br>
+{% endfor %}
+
+</body>
+</html>
+
+

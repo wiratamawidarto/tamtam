@@ -1,0 +1,46 @@
+<div class="col-md-8 offset-md-2 mr-auto ml-auto">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title mb-3">負責人資料</strong>
+        </div>
+        <div class="card-body">
+            <div class="mx-auto d-block">
+                <img class="rounded-circle mx-auto d-block" src="https://photocdn.sohu.com/kis/fengmian/1038/1038629/1038629_ver_big.jpg" alt="Card image cap">
+                <div class="location text-sm-center">
+                    <h3>{{ user_profile.name }}</h3>
+                    <br>
+                    <p>工號: {{ user_profile.gongHao }}</p>
+                    <br>
+                    <p>公司: {{ user_profile.company }}</p>
+                    <br>
+                    <p>(No Infomation)</p>
+                    <br>
+                    <h5><span>聯絡號碼: </span><a href="tel:{{ user_profile.contact_num }}">{{ user_profile.contact_num }}</a></h5>
+                    <br>
+                    <h5><span>Email： </span><a href="mailto:{{ user_profile.email }}">{{ user_profile.email }}</a></h5>
+                    <br>
+                    <p>LineID : {{ user_profile.lineid }}</p>
+                    <br>
+                </div>
+                <div class='col-md-6 offset-md-3'>
+                    <a href= {% url 'my_profile_update' %} class='btn btn-warning btn-lg btn-block'>更改負責人資料</a>
+                </div>
+            </div>
+            <hr>
+            <div class="card-text text-sm-center">
+                <a href="#">
+                    <i class="fa fa-facebook pr-1"></i>
+                </a>
+                <a href="#">
+                    <i class="fa fa-twitter pr-1"></i>
+                </a>
+                <a href="#">
+                    <i class="fa fa-linkedin pr-1"></i>
+                </a>
+                <a href="#">
+                    <i class="fa fa-pinterest pr-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

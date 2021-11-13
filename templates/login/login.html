@@ -1,0 +1,44 @@
+{% extends 'login/login_base.html' %}
+{% block content %}
+
+    <div class="login">
+        <div class="login-screen">
+            <div class="app-title">
+                <h1>管理員登入</h1>
+            </div>
+
+            <form method="POST" action="" class="login-form">
+              {% csrf_token %}
+                <div class="control-group">
+                <input type="text" name="username" placeholder="管理員帳號" class="form-control" value="{{ c_username }}">
+                </div>
+
+                <div class="control-group">
+                <input type="password" name="password" placeholder="帳號密碼" class="form-control" value="{{ c_password }}">
+                </div>
+
+                <div class="control-group">
+                    <input type="checkbox" name="remember_me" id="remember_me" value="Remember me">
+                    <label for="remember_me">記住我</label><br>
+                </div>
+
+                <input class="btn login_btn" type="submit" value="登入">
+
+                <div style="display: none;">
+                   <input id="next" type="text" name="next_url" value="{{ next_url }}" />
+               </div>
+
+            </form>
+            {% for message in messages %}
+                <br>
+                <div class="control-group">
+                    <div class="alert alert-{{message.tags}}">{{ message }}</div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+{% endblock content %}

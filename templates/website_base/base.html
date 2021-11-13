@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>{% block Title %}{% endblock %}</title>
+
+    <!-- Fontfaces CSS-->
+    <link rel="stylesheet" href="{%static 'css/font-face.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/font-awesome-4.7/css/font-awesome.min.css'%}" media="all">
+    <link rel="stylesheet" href="{%static 'vendor/font-awesome-5/css/fontawesome-all.min.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/mdi-font/css/material-design-iconic-font.min.css'%}"  media="all">
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{%static 'vendor/bootstrap-4.1/bootstrap.min.css'%}"  media="all">
+
+    <!-- Vendor CSS-->
+    <link rel="stylesheet" href="{%static 'vendor/animsition/animsition.min.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/wow/animate.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/css-hamburgers/hamburgers.min.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/slick/slick.css'%}"  media="all">
+    <link rel="stylesheet" href="{%static 'vendor/select2/select2.min.css'%}" media="all">
+    <link rel="stylesheet" href="{%static 'vendor/perfect-scrollbar/perfect-scrollbar.css'%}" media="all">
+
+    <!-- Main CSS-->
+    <link rel="stylesheet" href="{%static 'css/theme.css'%}" media="all">
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+
+        {% include 'website_base/header.html'%}
+        {% block content %}{% endblock content %}
+        {% include 'website_base/footer.html'%}
+
+    </div>
+</body>
+
+
+    <!-- my custom script-->
+<script>
+    function get_select_value()
+    {
+        var selected_value = document.getElementById('demo')
+    }
+
+     function func1()
+    {
+        document.getElementById('demo').innerHTML = ("the selected value"+ id_one[id_one.selectedIndex].text + data)
+    }
+
+
+
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['a',     11],
+          ['b',    9]
+        ]);
+
+        var options = {
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data);
+      }
+</script>
+
+<script>
+(function ($) {
+  "use strict";
+  try {
+    // Percent Chart 2
+    var ctx = document.getElementById("percent-chart3");
+    if (ctx) {
+      ctx.height = 209;
+      var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [
+            {
+              label: "My First dataset",
+              data: [100, 100],
+              backgroundColor: [
+                '#00b5e9',
+                '#fa4251'
+              ],
+              hoverBackgroundColor: [
+                '#00b5e9',
+                '#fa4251'
+              ],
+              borderWidth: [
+                0, 0
+              ],
+              hoverBorderColor: [
+                'transparent',
+                'transparent'
+              ]
+            }
+          ],
+          labels: [
+            'cok',
+            'jancok'
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          cutoutPercentage: 87,
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
+          legend: {
+            display: false,
+            position: 'bottom',
+            labels: {
+              fontSize: 14,
+              fontFamily: "Poppins,sans-serif"
+            }
+
+          },
+          tooltips: {
+            titleFontFamily: "Poppins",
+            xPadding: 15,
+            yPadding: 10,
+            caretPadding: 0,
+            bodyFontSize: 16,
+          }
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+
+})(jQuery);
+
+</script>
+
+
+<!-- Jquery JS-->
+<script src="{%static 'vendor/jquery-3.2.1.min.js'%}"></script>
+<!-- Bootstrap JS-->
+<script src="{%static 'vendor/bootstrap-4.1/popper.min.js'%}"></script>
+<script src="{%static 'vendor/bootstrap-4.1/bootstrap.min.js'%}"></script>
+<!-- Vendor JS       -->
+<script src="{%static 'vendor/slick/slick.min.js'%}">
+</script>
+<script src="{%static 'vendor/wow/wow.min.js'%}"></script>
+<script src="{%static 'vendor/animsition/animsition.min.js'%}"></script>
+<script src="{%static 'vendor/bootstrap-progressbar/bootstrap-progressbar.min.js'%}">
+</script>
+<script src="{%static 'vendor/counter-up/jquery.waypoints.min.js'%}"></script>
+<script src="{%static 'vendor/counter-up/jquery.counterup.min.js'%}">
+</script>
+<script src="{%static 'vendor/circle-progress/circle-progress.min.js'%}"></script>
+<script src="{%static 'vendor/perfect-scrollbar/perfect-scrollbar.js'%}"></script>
+<script src="{%static 'vendor/chartjs/Chart.bundle.min.js'%}"></script>
+<script src="{%static 'vendor/select2/select2.min.js'%}">
+</script>
+
+<!-- Main JS-->
+<script src="{%static 'js/main.js'%}"></script>
+
+</html>
+<!-- end document-->

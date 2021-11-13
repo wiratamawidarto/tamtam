@@ -1,0 +1,51 @@
+{% extends 'profile/profile_base.html' %}
+{% block title %} Profile {% endblock %}
+{% load static %}
+{% block Top_background %}{% static 'images/main_picture.jpg' %}{% endblock %}
+{% block color1 %} deep-orange{% endblock %}
+{% block color2 %} deep-orange{% endblock %}
+{% block Top_href %}
+{% endblock %}
+
+{% block Top_href_drop %}
+{% endblock %}
+
+{% block header_title %}
+    <h1>My Profile|Modify</h1>
+{% endblock %}
+
+
+{% block categories %}
+{% endblock %}
+
+{% block drop_menu %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="content">
+            <div class="container">
+                <div class="card-panel">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="col m12">
+                                <h3>{{ message }}</h3>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="col m12">
+                        <form action="{% url 'my_profile_update' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ profile_form}}
+                            <div class="center-align">
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

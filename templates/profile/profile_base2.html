@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block Title %}{% endblock %}</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Lato Font -->
+     <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+{% block css %}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css" integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+{% endblock css %}
+
+
+  </head>
+
+  <body class="blog">
+    <!-- Navbar and Header -->
+    <nav class="nav-extended {% block color1 %}{% endblock %}">
+      <div class="nav-background">
+        <div class="pattern active" style="background-image: url('{% block Top_background %}{% endblock %}');"></div>
+      </div>
+      <div class="nav-wrapper container">
+        <a href="/" class="brand-logo"><i class="material-icons">home</i>Home</a>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+
+        <ul class="right hide-on-med-and-down">
+            {% with url_name=request.resolver_match.url_name %}
+                  <li><a href="{% url 'homepage' %}">主頁</a></li>
+                <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">
+                    {% if user.username %}
+                        Hi, {{ user.username | upper }}
+                    {% else %}
+                        Features
+                    {% endif %}
+                    <i class="material-icons right">arrow_drop_down</i></a></li>
+            {% endwith %}
+
+            {% block Top_href %}
+
+            {% endblock %}
+        </ul>
+        <!-- Dropdown Structure -->
+        <ul id='feature-dropdown' class='dropdown-content'>
+            {% if user.username %}
+                {% with url_name=request.resolver_match.url_name %}
+                {% endwith %}
+            {% else %}
+                {% with url_name=request.resolver_match.url_name %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endwith %}
+            {% endif %}
+        </ul>
+            {% block Top_href_drop %}
+            {% endblock %}
+        <div class="nav-header center">
+            {% block header_title %}
+
+            {% endblock %}
+        </div>
+      </div>
+
+      <!-- Fixed Masonry Filters -->
+      <div class="categories-wrapper {% block color2 %}{% endblock %} darken-1">
+        <div class="categories-container">
+          <ul class="categories container">
+                {% with url_name=request.resolver_match.url_name %}
+                    <li class="active"><a href="{% url 'my_profile' %}">My Profile</a></li>
+                    <li class="active"><a href="{% url 'my_profile_update' %}">Modify Profile</a></li>
+                {% endwith %}
+            {% block categories %}
+
+            {% endblock %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <ul class="side-nav" id="nav-mobile">
+        {% if user.username %}
+            {% with url_name=request.resolver_match.url_name %}
+                <li><a href="calories/"><i class="material-icons">restaurant_menu</i>Calories</a></li>
+                <li><a href="myblog/"><i class="material-icons">developer_board</i>Blog</a></li>
+                <li><a href="recipe/"><i class="material-icons">directions_bike</i>Fitness</a></li>
+                <li><a class="subheader"><i class="material-icons">perm_identity</i>Hi, {{ user.username | upper }}</a></li>
+                <li><a class="active" href={% url "my_profile" %}>Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% endwith %}
+        {% else %}
+            {% with url_name=request.resolver_match.url_name %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endwith %}
+        {% endif %}
+
+        {% block drop_menu %}
+
+        {% endblock %}
+    </ul>
+
+
+    <div id="portfolio" class="section gray">
+            {% block content %}
+
+            {% endblock %}
+    </div><!-- /.container -->
+
+
+    <!-- Core Javascript -->
+{% block javascript %}
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js" integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
+
+<script>
+$(document).ready(function(){
+
+  // Initialize materialize data picker
+  $('.datepicker').datepicker({'format': 'yyyy-mm-dd'});
+  $('select').formSelect();
+  $(".button-collapse").sideNav();//mobile screen menu init
+    $('.carousel').carousel(); //carousel init
+
+    $('.carousel-slider').slider({full_width: true});
+
+});
+</script>
+{% endblock javascript %}
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+  </body>
+</html>
