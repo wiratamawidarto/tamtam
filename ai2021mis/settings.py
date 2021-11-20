@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django.contrib.sites',
+    'django_celery_results',
 
 ]
 
@@ -91,6 +92,27 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        # 預設使用
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1", # 指定redis://IP/第幾個DB
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        'KEY_PREFIX': 'Cache'
+    },
+    # 其他redis庫
+    "testRedis": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        'KEY_PREFIX': 'Cache'
+    },
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -133,10 +155,9 @@ DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
 RECIPIENT_ADDRESS = 'wiratamawidarto@gmail.com'
 
 
-WEB_HOST = 'https://christopher0908.pythonanywhere.com/'
+WEB_HOST = 'https://9106-211-20-119-193.ngrok.io'
 LINE_CHANNEL_ACCESS_TOKEN = 'sRRx49jYLQL+JbvGmq9s8CkvelMEJMexixUGnUJD77Nje9aW6Nf3jf4jGQ7zNrTM1tk0UBVsPc5Ezm4zrU7q8ZHoRI6kHkcxu4dADMmLjKcmQETiUVe1ov0G44yMTbzwVwrKd8JjI8lJjRJ4R5H2LgdB04t89/1O/w1cDnyilFU='
 LINE_CHANNEL_SECRET = 'dc642785c53e406cdcc72ec324aa6ca8'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -152,6 +173,29 @@ USE_L10N = False
 USE_TZ = True
 
 # DATETIME_FORMAT = '%d/%m/%Y %H:%M:%S'
+
+# Celery
+BROKER_URL = 'redis://localhost:6379/'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_TIME_LIMIT = 60      # 為任務設定超時時間，單位秒。超時即中止，執行下個任務。
+# CELERY_RESULT_EXPIRES = xx    # 為儲存結果設定過期日期，預設1天過期。如果beat開啟，Celery每天會自動清除。設為0，儲存結果永不過期
+# CELERY_TASK_ANNOTATIONS = {'tasks.add': {'rate_limit': '10/s'}}   # 任務限流
+# CELERY_WORKER_CONCURRENCY = 2     # Worker並行數量，一般預設CPU核數，可以不設定
+# CELERY_WORKER_MAX_TASKS_PER_CHILD = 200  # 每個worker執行了多少任務就會死掉，預設是無限的
+# CELERY_TASK_DEFAULT_QUEUE = 'default'
+# CELERY_TASK_DEFAULT_ROUTING_KEY = 'default'
+# CELERY_QUEUES = (
+# Queue('default', Exchange('default'), routing_key='default'),
+# Queue('heavy_tasks', Exchange('heavy_tasks'), routing_key='heavy_tasks'),
+# )
+# CELERY_TASK_ROUTES = {
+# 'myapp.tasks.heave_tasks': 'heavy_tasks'
+# }
 
 
 # Static files (CSS, JavaScript, Images)

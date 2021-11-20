@@ -7,7 +7,7 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextSendMessage
 
-from .models import Manager
+from .models import Manager, AlertNotification
 from employee.models import employee
 from db_api.models import Yolo
 
@@ -30,7 +30,6 @@ def callback(request):
             return HttpResponseForbidden()
         except LineBotApiError:
             return HttpResponseBadRequest
-
 
 
         for event in events:
@@ -146,6 +145,27 @@ def callback(request):
                     except ObjectDoesNotExist:
                         message = TextSendMessage(text = f'『{user_name}』不是管理員')
 
+                elif "解除警報" in sent_message:
+                    foo = 'Here is an example string that contains bar.'
+                    action, alert_id, notification_id = '(none)', '(none)', '(none)'
+                    try:
+                        flist = sent_message.split("@")
+                        action = str(flist[0])
+                        alert_id = str(flist[1])
+                        notification_id = str(flist[2])
+
+                    except Exception:
+                        message = TextSendMessage(text='解除警報格式錯誤，請聯繫管理員')
+
+                    try:
+                        if notification_id != '(none)' and alert_id != '(none)':
+                            alert = AlertNotification.objects.get(pk=notification_id)
+                            alert.received = True
+                            alert.save()
+                            message = TextSendMessage(text=f'已解除警報『{alert_id}』')
+                    except Exception:
+                        message = TextSendMessage(text='解除警報失敗，請聯繫管理員')
+
                 else:
                     message = TextSendMessage(text=sent_message)
 
@@ -155,6 +175,3 @@ def callback(request):
 
     else:
         HttpResponseBadRequest()
-
-
-
