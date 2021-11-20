@@ -9,3 +9,5 @@ https://developers.line.biz/console/channel/1656407516/messaging-api
 #Requirements (OS:Ubuntu 18.04):
 ##1)install redis
 ####sudo apt-get install redis-server
+
+##test
