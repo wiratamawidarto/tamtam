@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from db_api.models import Yolo, Yolo_Files, yolo_trial
 from django.contrib.auth.decorators import login_required
-
+from django.conf import settings
 from datetime import date
 
 
@@ -136,6 +136,7 @@ def template2(request):
 #this is for selecting specific objects
 @login_required(login_url='login')
 def ShowAlertMsgById(request, id='none'):
+    website_host = settings.WEB_HOST
     user = request.user
     username = user.username
     if id == 'none':
@@ -147,13 +148,17 @@ def ShowAlertMsgById(request, id='none'):
         #yolo_file.yolo_id.title get parent element from child
         if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
             obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
+            url = website_host + str(obj_yolofiles.image.url)
         else:
             obj_yolofiles = ''
+            url = ''
+
         output = {
             'result' : 'Success',
             'obj_yolo' : obj_yolo,
             'obj_yolofiles' : obj_yolofiles,
             'username' : username,
+            'img_url' : url,
             }
 
     return render(request, 'web2.html', output)

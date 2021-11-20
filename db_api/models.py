@@ -8,19 +8,10 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.files.images import ImageFile
 ######################################################
-from mylinebot.alert import sendAlert as line_sendAlert
-from mylinebot.alert import sendAlert_Picture as line_sendAlert_picture
+from mylinebot.alert import send_alert_to_managers as line_sendAlert
+from mylinebot.alert import send_alert_img_to_managers as line_sendAlert_picture
 ######################################################
-try:
-    import Image
-except ImportError:
-   from PIL import Image
 
-import cv2
-import io
-import os
-import numpy as np
-import base64
 # Create your models here.
 
 #so that there is no object with the same slug
@@ -162,62 +153,18 @@ def email_sendAlert(alert):
 @receiver(post_save, sender=Yolo)
 def create_alert(sender, instance, created, **kwargs):
     def decode_img():
-        directory = settings.MEDIA_ROOT
-        directory = os.path.join(directory, 'Uploaded Files')
-        img_numpy_StrToBytes = instance.image
-        """ Receive message from api  """
-        img_numpy_BytesToNumpy = base64.b64decode(img_numpy_StrToBytes)
-
-        """ Convert message to Numpy"""
-        img_numpy_BytesToNumpy = np.frombuffer(img_numpy_BytesToNumpy, dtype=np.uint8)
-
-        cv2_img = cv2.imdecode(img_numpy_BytesToNumpy, flags=1)
-        cv2_path = os.path.join(directory, instance.title)
-        cv2.imwrite(cv2_path, cv2_img)
-
-        # img_numpy_fromBytesToNumpy = instance.image
-        # img_numpy_toStr = base64.b64decode(img_numpy_fromBytesToNumpy)
-        # pil_img = Image.fromarray(img_numpy_toStr)
-        # pil_path = ('/home/christopher0908/ai2021mis/media/test_received.jpeg')
-        # pil_img.save(pil_path)
-        image_url = os.path.join('Uploaded Files', instance.title)
-        # image_bytes = io.BytesIO(cv2_img)
-        # image = ImageFile(image_bytes, name=(instance.title))
-        Picture_Files.objects.create(picture=image_url, identifier=instance.title)
+        from .decode_img import append_task_queue
+        append_task_queue(instance)
 
     if created and instance.alert:
         Yolo_Files.objects.create(id = instance.id, yolo_id = instance, )
         # email_sendAlert('YOLO')
-        line_sendAlert(str(instance.id), str(instance.timestamp), str(instance.description))
+        line_sendAlert(instance)
         decode_img()
-
     elif created:
-        directory = settings.MEDIA_ROOT
-        directory = os.path.join(directory, 'Uploaded Files')
-        img_numpy_StrToBytes = instance.image
-        """ Receive message from api  """
-        img_numpy_BytesToNumpy = base64.b64decode(img_numpy_StrToBytes)
-
-        """ Convert message to Numpy"""
-        img_numpy_BytesToNumpy = np.frombuffer(img_numpy_BytesToNumpy, dtype=np.uint8)
-
-        cv2_img = cv2.imdecode(img_numpy_BytesToNumpy, flags=1)
-        cv2_path = os.path.join(directory, instance.title)
-        cv2.imwrite(cv2_path, cv2_img)
-
-        # img_numpy_fromBytesToNumpy = instance.image
-        # img_numpy_toStr = base64.b64decode(img_numpy_fromBytesToNumpy)
-        # pil_img = Image.fromarray(img_numpy_toStr)
-        # pil_path = ('/home/christopher0908/ai2021mis/media/test_received.jpeg')
-        # pil_img.save(pil_path)
-        image_url = os.path.join('Uploaded Files', instance.title)
-        # image_bytes = io.BytesIO(cv2_img)
-        # image = ImageFile(image_bytes, name=(instance.title))
-        Picture_Files.objects.create(picture=image_url, identifier=instance.title)
+        decode_img()
     else:
         pass
-
-
 
 
 @receiver(post_save, sender=Picture_Files)
@@ -242,11 +189,9 @@ def create_file(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Yolo_Files)
 def send_picture(sender, instance, created, **kwargs):
     website_host = settings.WEB_HOST
-
     try:
         if created == False and instance.send_alert == False and instance.image.url != '':
-            picture_url = website_host + str(instance.image.url)
-            line_sendAlert_picture(str(instance.id), picture_url)
+            line_sendAlert_picture(instance)
             instance.send_alert = True
             instance.save()
 

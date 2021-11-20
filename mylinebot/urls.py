@@ -15,9 +15,8 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
-from .alert import alert_message
+from .alert import alert_message, clear_tasks_queue_web_control
 from .views import callback as new_callback
-
 
 from employee.models import employee #there is gongHao name company
 from employee.models import Company
@@ -154,10 +153,11 @@ def callback(request):
 
 
 def callback2(request):
+    from .alert import clear_tasks_queue
     try:
-        instance = Yolo.objects.get(id='def')
+        clear_tasks_queue()
         # alert_flex_message = alert_FlexMessage(str(instance.id), str(instance.timestamp), str(instance.description))
-        # result = str(alert_flex_message)
+        result = "OK"
     except Exception:
         result = Exception
     return HttpResponse(result)
@@ -165,7 +165,7 @@ def callback2(request):
 
 urlpatterns = [
     path('test/', callback2),
+    path('terminate/', clear_tasks_queue_web_control, name='clear task queue'),
     # path('callback/', callback),
     path('callback/', new_callback),
-
     ]
