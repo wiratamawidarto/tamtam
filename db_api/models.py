@@ -6,7 +6,6 @@ from django.utils.text import slugify
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
-from django.core.files.images import ImageFile
 ######################################################
 from mylinebot.alert import send_alert_to_managers as line_sendAlert
 from mylinebot.alert import send_alert_img_to_managers as line_sendAlert_picture
@@ -21,7 +20,6 @@ def unique_slugify(instance, slug):
     while model.objects.filter(id=unique_slug).exists():
         unique_slug = slug + get_random_string(length=3)
     return unique_slug
-
 
 
 
@@ -160,9 +158,11 @@ def create_alert(sender, instance, created, **kwargs):
         Yolo_Files.objects.create(id = instance.id, yolo_id = instance, )
         # email_sendAlert('YOLO')
         line_sendAlert(instance)
-        decode_img()
+        if instance.image != '':
+            decode_img()
     elif created:
-        decode_img()
+        if instance.image != '':
+            decode_img()
     else:
         pass
 

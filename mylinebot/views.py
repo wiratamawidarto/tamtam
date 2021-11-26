@@ -2,10 +2,12 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+from django.urls import reverse
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage
+from linebot.models import MessageEvent, TextSendMessage, FlexSendMessage
 
 from .models import Manager, AlertNotification
 from employee.models import employee
@@ -52,10 +54,11 @@ def callback(request):
                 # elif sent_message == '@請輸入帳號' and mode=='login':
                 #     message = TextSendMessage(text='你已輸入帳號，請輸入密碼:')
 
+                #######Super user login#######
                 if sent_message == 'admin activate':
                     try:
                         instance = Manager.objects.get(line_id = user_id)
-                        message = TextSendMessage(text=f'『{user_name}』已經是系統管理員')
+                        message = TextSendMessage(text=f'登入成功，已添加『{user_name}』為系統管理員')
                     except ObjectDoesNotExist:
                         Manager.objects.create(name=user_name, line_id=user_id)
                         message = TextSendMessage(text=f'已添加『{user_name}』為系統管理員')
@@ -64,9 +67,14 @@ def callback(request):
                     unit.save()
                     mode = unit.state
 
+                ######normal user login######
+
                 if mode == 'no':
                     if sent_message == '@管理員登入':
-                        message = TextSendMessage(text='請輸入你的帳號和密碼:\n『格式：@你的賬戶@你的密碼』')
+
+                        # message = TextSendMessage(text='請輸入你的帳號和密碼:\n『格式：@你的賬戶@你的密碼』')
+                        flex_message = login_flex_message()
+                        message = FlexSendMessage(alt_text='@點此登入系統', contents=flex_message)
 
                     elif sent_message[:1] == '@' and len(sent_message) > 8:
                         username = 'none'
@@ -89,6 +97,7 @@ def callback(request):
 
                                 elif password == user.password and user.lineid == 'no':
                                     user.lineid = user_id
+                                    user.line_username = user_name
                                     user.save()
                                     message = TextSendMessage(text=f'登入成功，已添加『{user_name}』為系統管理員')
 
@@ -146,7 +155,6 @@ def callback(request):
                         message = TextSendMessage(text = f'『{user_name}』不是管理員')
 
                 elif "解除警報" in sent_message:
-                    foo = 'Here is an example string that contains bar.'
                     action, alert_id, notification_id = '(none)', '(none)', '(none)'
                     try:
                         flist = sent_message.split("@")
@@ -161,11 +169,13 @@ def callback(request):
                         if notification_id != '(none)' and alert_id != '(none)':
                             alert = AlertNotification.objects.get(pk=notification_id)
                             alert.received = True
+                            alert.timestamp = timezone.now()
                             alert.save()
                             message = TextSendMessage(text=f'已解除警報『{alert_id}』')
                     except Exception:
                         message = TextSendMessage(text='解除警報失敗，請聯繫管理員')
-
+                elif sent_message == 'admin activate':
+                    pass
                 else:
                     message = TextSendMessage(text=sent_message)
 
@@ -175,3 +185,61 @@ def callback(request):
 
     else:
         HttpResponseBadRequest()
+
+
+def login_flex_message():
+    website_host = settings.WEB_HOST
+    url = website_host + reverse('user_login_line')
+    message ={
+              "type": "bubble",
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "button",
+                    "action": {
+                      "type": "uri",
+                      "label": "點此登入",
+                      "uri": url
+                    },
+                    "style": "primary",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "1） 點擊上方的按鈕，登入你的賬戶",
+                    "margin": "xl",
+                    "size": "md",
+                    "weight": "bold",
+                    "style": "italic",
+                    "align": "start",
+                    "gravity": "center",
+                    "wrap": True
+                  },
+                  {
+                    "type": "text",
+                    "text": "2）登入成功後將獲得『鑰匙』",
+                    "margin": "xs",
+                    "size": "md",
+                    "weight": "bold",
+                    "style": "italic",
+                    "align": "start",
+                    "gravity": "center",
+                    "wrap": True
+                  },
+                  {
+                    "type": "text",
+                    "text": "3）點擊發送，即可啟動機器人",
+                    "margin": "xs",
+                    "size": "md",
+                    "weight": "bold",
+                    "style": "italic",
+                    "align": "start",
+                    "gravity": "center",
+                    "wrap": True
+                  }
+                ]
+              }
+            }
+    return message
