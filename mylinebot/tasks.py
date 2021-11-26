@@ -24,4 +24,4 @@ def create_image_task(message):
         alert_id = message_info['alert_id']
         image_url = message_info['image_url']
 
-        mylinebot.alert.send_alert_picture(line_id, alert_id, image_url)
+        mylinebot.alert.send_alert_picture(line_id, alert_id, image_url, notification_id)

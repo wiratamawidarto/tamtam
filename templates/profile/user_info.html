@@ -19,11 +19,11 @@
                     <br>
                     <h5><span>Email： </span><a href="mailto:{{ user_profile.email }}">{{ user_profile.email }}</a></h5>
                     <br>
-                    <p>LineID : {{ user_profile.lineid }}</p>
+                    <p>LineID : {{ user_profile.line_username }}</p>
                     <br>
                 </div>
                 <div class='col-md-6 offset-md-3'>
-                    <a href= {% url 'my_profile_update' %} class='btn btn-warning btn-lg btn-block'>更改負責人資料</a>
+                    <a href= "{% url 'my_profile_update' %}" class='btn btn-warning btn-lg btn-block'>更改負責人資料</a>
                 </div>
             </div>
             <hr>

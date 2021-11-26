@@ -4,7 +4,7 @@ from employee.models import Company
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'gongHao', 'company', 'lineid')
+    list_display = ('user', 'name', 'gongHao', 'company', 'line_username')
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name','name2')

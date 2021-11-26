@@ -148,7 +148,10 @@ def ShowAlertMsgById(request, id='none'):
         #yolo_file.yolo_id.title get parent element from child
         if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
             obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
-            url = website_host + str(obj_yolofiles.image.url)
+            if obj_yolofiles.image != "":
+                url = website_host + str(obj_yolofiles.image.url)
+            else:
+                url = ''
         else:
             obj_yolofiles = ''
             url = ''

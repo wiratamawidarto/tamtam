@@ -155,9 +155,10 @@ DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
 RECIPIENT_ADDRESS = 'wiratamawidarto@gmail.com'
 
 
-WEB_HOST = 'https://9106-211-20-119-193.ngrok.io'
+WEB_HOST = 'https://c4a7-140-120-80-135.ngrok.io'
 LINE_CHANNEL_ACCESS_TOKEN = 'sRRx49jYLQL+JbvGmq9s8CkvelMEJMexixUGnUJD77Nje9aW6Nf3jf4jGQ7zNrTM1tk0UBVsPc5Ezm4zrU7q8ZHoRI6kHkcxu4dADMmLjKcmQETiUVe1ov0G44yMTbzwVwrKd8JjI8lJjRJ4R5H2LgdB04t89/1O/w1cDnyilFU='
 LINE_CHANNEL_SECRET = 'dc642785c53e406cdcc72ec324aa6ca8'
+LINE_CHANNEL_ID = '@224zbfei'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

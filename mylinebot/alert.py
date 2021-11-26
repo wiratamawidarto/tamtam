@@ -3,6 +3,7 @@ from .models import Manager, AlertNotification, AlertImageNotification
 from employee.models import employee
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.utils import timezone
 ############################################
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import TextMessage, TextSendMessage, FlexSendMessage, ImageSendMessage
@@ -55,14 +56,21 @@ def send_alert_img_to_managers(Yolofile_object):
         notification.save()
 
 
-def send_alert_picture(line_id, alert_id, alert_image_url):
+def send_alert_picture(line_id, alert_id, alert_image_url, notification_id):
     image_message = ImageSendMessage(
         original_content_url=str(alert_image_url),
         preview_image_url=str(alert_image_url)
     )
     text_message = '這是ID:『' + alert_id + '』的危險信息縮圖'
-    line_bot_api.push_message(line_id, image_message)
-    line_bot_api.push_message(line_id, TextSendMessage(text=text_message))
+    try:
+        line_bot_api.push_message(line_id, image_message)
+        line_bot_api.push_message(line_id, TextSendMessage(text=text_message))
+        notification = AlertImageNotification.objects.get(pk=notification_id)
+        notification.received = True
+        notification.timestamp = timezone.now()
+        notification.save()
+    except Exception as e:
+        print(e)
 
 
 def send_alert(lineid, alert_id, timestamp, description, notification_id):
@@ -112,7 +120,6 @@ def remove_task_from_queue(task_id):
         result.revoke(terminate=True, signal=signal.SIGQUIT)
     else:
         result.revoke(terminate=False, signal=signal.SIGQUIT)
-
 
 @login_required(login_url='login')
 def clear_tasks_queue_web_control(request):
