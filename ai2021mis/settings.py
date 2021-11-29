@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*',]
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,8 +49,19 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django.contrib.sites',
     'django_celery_results',
+    'dbbackup',
+    
 
 ]
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR/ 'backup'}
+
+#activate this.. then backup will automatically run every 1 minut 
+# CRONJOBS = [
+#     ('*/1 * * * *', 'ai2021mis.cron.backup_function')
+# ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
